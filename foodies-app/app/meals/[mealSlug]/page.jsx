@@ -5,6 +5,15 @@ import { getMeal } from '@/lib/meals';
 import { notFound } from 'next/navigation';
 import classes from './page.module.css';
 
+export async function generateMetadata({ params }) {
+  const { mealSlug } = await params;
+  const meal = await getMeal(mealSlug);
+  return {
+    title: meal.title,
+    description: meal.summary
+  };
+}
+
 export default async function MealPage({ params }) {
   const { mealSlug } = await params;
   const meal = await getMeal(mealSlug);
