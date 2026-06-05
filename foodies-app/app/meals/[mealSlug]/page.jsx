@@ -1,8 +1,9 @@
 import Image from 'next/image';
 
+import { IMAGES_ROOT } from '@/constants';
 import { getMeal } from '@/lib/meals';
-import classes from './page.module.css';
 import { notFound } from 'next/navigation';
+import classes from './page.module.css';
 
 export default async function MealPage({ params }) {
   const { mealSlug } = await params;
@@ -18,7 +19,7 @@ export default async function MealPage({ params }) {
     <>
       <header className={classes.header}>
         <div className={classes.image}>
-          <Image src={meal.image} fill />
+          <Image src={`${IMAGES_ROOT}/${meal.image}`} fill alt={meal.image} />
         </div>
         <div className={classes.headerText}>
           <h1>{meal.title}</h1>
