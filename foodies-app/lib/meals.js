@@ -1,8 +1,17 @@
 import fs from 'node:fs';
 
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import sql from 'better-sqlite3';
 import slugify from 'slugify';
 import xss from 'xss';
+
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+  }
+});
 
 const db = sql('meals.db');
 
@@ -25,16 +34,18 @@ export async function saveMeal(meal) {
   const extension = meal.image.name.split('.').pop();
   const fileName = `${meal.slug}_${Date.now()}.${extension}`;
 
-  const writer = fs.createWriteStream(`public/images/${fileName}`);
   const bufferedImage = await meal.image.arrayBuffer();
 
-  writer.write(Buffer.from(bufferedImage), (error) => {
-    if (error) {
-      throw new Error('Error while saving image!');
-    }
-  });
+  await s3.send(
+    new PutObjectCommand({
+      Bucket: process.env.S3_BUCKET,
+      Key: `${process.env.S3_APP_PREFIX}/${fileName}`,
+      Body: Buffer.from(bufferedImage),
+      ContentType: meal.image.type
+    })
+  );
 
-  meal.image = `/images/${fileName}`;
+  meal.image = fileName;
 
   db.prepare(
     `

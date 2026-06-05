@@ -7,7 +7,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: process.env.S3_HOSTNAME,
+        hostname: `${process.env.S3_BUCKET}.${process.env.S3_HOSTNAME}`,
         port: '',
         pathname: '/**'
       }
