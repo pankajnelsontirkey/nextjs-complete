@@ -17,5 +17,8 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.6"
+  },
+  "allowScripts": {
+    "unrs-resolver@1.11.1": true
   }
 }
