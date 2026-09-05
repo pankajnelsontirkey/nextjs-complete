@@ -33,6 +33,13 @@ export default async function FilteredNewsPage({ params }) {
     newsContent = <NewsList news={news} />;
   }
 
+  if (
+    (year && !getAvailableNewsYears().includes(+year)) ||
+    (month && !getAvailableNewsMonths(year).includes(+month))
+  ) {
+    throw new Error('Invalid filter!');
+  }
+
   return (
     <>
       <header id='archive-header'>
