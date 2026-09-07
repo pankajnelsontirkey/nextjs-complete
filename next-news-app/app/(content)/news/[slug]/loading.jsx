@@ -1,3 +1,3 @@
-export default async function NewsLoadingPage() {
+export default async function NewsItemLoadingPage() {
   return <p>Loading news item... </p>;
 }

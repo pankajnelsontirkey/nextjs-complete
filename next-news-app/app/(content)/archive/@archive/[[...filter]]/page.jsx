@@ -15,15 +15,15 @@ export default async function FilteredNewsPage({ params }) {
   const month = filter?.[1];
 
   let news;
-  let links = getAvailableNewsYears();
+  let links = await getAvailableNewsYears();
 
   if (year && !month) {
-    news = getNewsForYear(year);
+    news = await getNewsForYear(year);
     links = getAvailableNewsMonths(year);
   }
 
   if (year && month) {
-    news = getNewsForYearAndMonth(year, month);
+    news = await getNewsForYearAndMonth(year, month);
     links = [];
   }
 
@@ -33,9 +33,12 @@ export default async function FilteredNewsPage({ params }) {
     newsContent = <NewsList news={news} />;
   }
 
+  const availableYears = await getAvailableNewsYears();
+  const availableMonths = getAvailableNewsMonths(year);
+
   if (
-    (year && !getAvailableNewsYears().includes(+year)) ||
-    (month && !getAvailableNewsMonths(year).includes(+month))
+    (year && !availableYears.includes(year)) ||
+    (month && !availableMonths.includes(month))
   ) {
     throw new Error('Invalid filter!');
   }
