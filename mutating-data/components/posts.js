@@ -3,11 +3,11 @@ import LikeButton from './like-icon';
 
 function Post({ post }) {
   return (
-    <article className="post">
-      <div className="post-image">
-        <img src={post.image} alt={post.title} />
+    <article className='post'>
+      <div className='post-image'>
+        <img src={post.image ?? null} alt={post.title} />
       </div>
-      <div className="post-content">
+      <div className='post-content'>
         <header>
           <div>
             <h2>{post.title}</h2>
@@ -34,7 +34,7 @@ export default function Posts({ posts }) {
   }
 
   return (
-    <ul className="posts">
+    <ul className='posts'>
       {posts.map((post) => (
         <li key={post.id}>
           <Post post={post} />
