@@ -1,9 +1,10 @@
 'use server';
 
-import { uploadImage } from '@/lib/cloudinary';
-import { storePost, updatePostLikeStatus } from '@/lib/posts';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+
+import { uploadImage } from '@/lib/cloudinary';
+import { storePost, updatePostLikeStatus } from '@/lib/posts';
 
 export async function createPost(prevState, formData) {
   const { title, image, content } = Object.fromEntries(formData);
