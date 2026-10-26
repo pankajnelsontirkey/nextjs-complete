@@ -1,15 +1,34 @@
 'use client';
 
+import Image from 'next/image';
+
 import { togglePostLikeStatus } from '@/actions/posts';
 import { formatDate } from '@/lib/format';
 import { useOptimistic } from 'react';
 import LikeButton from './like-icon';
 
+function imageLoader({ src, width, quality }) {
+  const urlStart = src.split('/upload')[0];
+  const urlEnd = src.split('/upload')[1];
+  const transformations = `w_200,q_${quality}`;
+
+  // return src;
+  return `${urlStart}/upload/${transformations}/${urlEnd}`;
+}
+
 function Post({ post, action }) {
   return (
     <article className='post'>
       <div className='post-image'>
-        <img src={post.image ?? null} alt={post.title} />
+        <Image
+          loader={imageLoader}
+          src={post.image ?? null}
+          // fill
+          width={200}
+          height={120}
+          alt={post.title}
+          quality={50}
+        />
       </div>
       <div className='post-content'>
         <header>
